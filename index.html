@@ -46,16 +46,7 @@
       text-align: right;
       font-style: italic;
     }
-.top-music iframe {
-  width: 100%;
-  max-width: 420px;
-  height: 236px;
-}
-  .music {
-  display: flex;
-  justify-content: center;
-  margin: 30px 0;
-}
+
     .photo {
   display: flex;
   justify-content: center;
@@ -67,11 +58,7 @@
   border-radius: 12px;
   box-shadow: 0 10px 30px rgba(0,0,0,0.15);
 }
-    iframe {
-      border-radius: 12px;
-      max-width: 100%;
-    }
-
+ 
     @keyframes fadeIn {
       from {
         opacity: 0;
@@ -151,6 +138,10 @@
   </style>
 </head>
 <body>
+  <audio id="bgm" preload="auto" loop>
+  <source src="nhac_nen_amthambenem_chinh.mp3" type="audio/mpeg">
+</audio>
+
 
 <!-- Màn mở thư -->
 <div id="overlay">
@@ -163,16 +154,6 @@
 <!-- Nội dung thư -->
 <div class="paper hidden" id="letterContent">
  <h1>Gửi em</h1>
-
-<!-- Nhạc đặt NGAY ĐẦU -->
-<div class="music top-music">
-  <iframe
-    id="musicFrame"
-    src="https://www.youtube.com/embed/Aks_Fod0TdQ?enablejsapi=1"
-    allow="autoplay; encrypted-media"
-    allowfullscreen>
-  </iframe>
-</div>
 
 <!-- Ảnh -->
 <div class="photo">
@@ -215,21 +196,38 @@
   const openBtn = document.getElementById("openBtn");
   const overlay = document.getElementById("overlay");
   const letter = document.getElementById("letterContent");
-  const music = document.getElementById("musicFrame");
+  const music = document.getElementById("bgm");
 
   openBtn.addEventListener("click", () => {
     overlay.classList.add("fade-out");
+
     setTimeout(() => {
       overlay.style.display = "none";
       letter.classList.remove("hidden");
-      music.src += "&autoplay=1";
+
+      music.volume = 0;
+      music.play();
+
+      // fade in nhạc
+      let vol = 0;
+      const fade = setInterval(() => {
+        if (vol < 0.4) {
+          vol += 0.02;
+          music.volume = vol;
+        } else {
+          clearInterval(fade);
+        }
+      }, 200);
+
     }, 1000);
   });
 </script>
 
+
 </body>
 
 </html>
+
 
 
 
